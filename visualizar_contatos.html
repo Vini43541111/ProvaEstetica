@@ -50,14 +50,13 @@
                         <th>E-mail</th>
                         <th>Telefone</th>
                         <th>Mensagem</th>
-                        <th>Status</th>
                         <th>Situação</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaContatos">
                     <tr>
-                        <td colspan="9" class="text-center">Carregando...</td>
+                        <td colspan="8" class="text-center">Carregando...</td>
                     </tr>
                 </tbody>
             </table>
@@ -77,17 +76,14 @@
                 
                 if (data.contatos.length > 0) {
                     tbody.innerHTML = data.contatos.map(cont => `
-                        <tr style="cursor: pointer;" class="${cont.lido ? 'table-secondary' : ''}">
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)">${cont.id}</td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)">${cont.data_criacao}</td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)">${cont.nome}</td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)"><a href="mailto:${cont.email}" style="color: #0ff;">${cont.email}</a></td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)"><a href="tel:${cont.telefone}" style="color: #0ff;">${cont.telefone}</a></td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)"><div class="mensagem-completa">${cont.mensagem}</div></td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)">
-                                ${cont.lido ? '<span class="badge bg-success ms-1">✓ Lido</span>' : '<span class="badge bg-warning text-dark ms-1">Não Lido</span>'}
-                            </td>
-                            <td onclick="marcarComoVisto('contato', ${cont.id}, this.parentElement)">
+                        <tr>
+                            <td>${cont.id}</td>
+                            <td>${cont.data_criacao}</td>
+                            <td>${cont.nome}</td>
+                            <td><a href="mailto:${cont.email}" style="color: #0ff;">${cont.email}</a></td>
+                            <td><a href="tel:${cont.telefone}" style="color: #0ff;">${cont.telefone}</a></td>
+                            <td><div class="mensagem-completa">${cont.mensagem}</div></td>
+                            <td>
                                 ${cont.respondido ? '<span class="badge bg-success">✅ Respondida</span>' : '<span class="badge bg-danger">❌ Não Respondida</span>'}
                             </td>
                             <td>
@@ -98,46 +94,13 @@
                         </tr>
                     `).join('');
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="9" class="text-center">Nenhuma mensagem de contato recebida ainda.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhuma mensagem de contato recebida ainda.</td></tr>';
                 }
             })
             .catch(error => {
-                document.getElementById('tabelaContatos').innerHTML = '<tr><td colspan="9" class="text-center text-danger">Erro ao carregar dados</td></tr>';
+                document.getElementById('tabelaContatos').innerHTML = '<tr><td colspan="8" class="text-center text-danger">Erro ao carregar dados</td></tr>';
             });
         
-        // Função para marcar contato como visto
-        function marcarComoVisto(tipo, id, elemento) {
-            fetch('backend/marcar_visto.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tipo: tipo, id: id })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    elemento.classList.add('table-secondary');
-                    
-                    const badges = elemento.querySelectorAll('.badge');
-                    badges.forEach(badge => {
-                        if (badge.classList.contains('badge-nao-lido')) {
-                            badge.classList.remove('badge-nao-lido');
-                            badge.classList.add('badge-lido');
-                            badge.textContent = 'Lido';
-                        }
-                        if (badge.textContent.includes('Não Lido')) {
-                            badge.classList.remove('bg-warning', 'text-dark');
-                            badge.classList.add('bg-success');
-                            badge.textContent = '✓ Lido';
-                        }
-                    });
-                }
-            })
-            .catch(error => console.error('Erro ao marcar como visto:', error));
-        }
-
-        // Função para alterar status de resposta
         function alterarResposta(id, statusAtual, event) {
             event.stopPropagation();
             
