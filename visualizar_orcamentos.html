@@ -51,14 +51,13 @@
                         <th>Telefone</th>
                         <th>Serviço</th>
                         <th>Mensagem</th>
-                        <th>Status</th>
                         <th>Situação</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabelaOrcamentos">
                     <tr>
-                        <td colspan="10" class="text-center">Carregando...</td>
+                        <td colspan="9" class="text-center">Carregando...</td>
                     </tr>
                 </tbody>
             </table>
@@ -87,9 +86,6 @@
                             <td><strong>${orc.servico}</strong></td>
                             <td>${orc.mensagem ? (orc.mensagem.length > 50 ? orc.mensagem.substring(0, 50) + '...' : orc.mensagem) : ''}</td>
                             <td>
-                                <span class="badge badge-${orc.status}">${orc.status ? orc.status.replace('_', ' ').charAt(0).toUpperCase() + orc.status.slice(1).replace('_', ' ') : 'Pendente'}</span>
-                            </td>
-                            <td>
                                 ${orc.aprovado ? '<span class="badge bg-success">✅ Aprovado</span>' : '<span class="badge bg-danger">Não Aprovado</span>'}
                             </td>
                             <td>
@@ -100,11 +96,11 @@
                         </tr>
                     `).join('');
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="10" class="text-center">Nenhum orçamento cadastrado ainda.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="9" class="text-center">Nenhum orçamento cadastrado ainda.</td></tr>';
                 }
             })
             .catch(error => {
-                document.getElementById('tabelaOrcamentos').innerHTML = '<tr><td colspan="10" class="text-center text-danger">Erro ao carregar dados</td></tr>';
+                document.getElementById('tabelaOrcamentos').innerHTML = '<tr><td colspan="9" class="text-center text-danger">Erro ao carregar dados</td></tr>';
             });
         
         function alterarAprovacao(id, statusAtual, event) {

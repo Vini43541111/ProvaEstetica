@@ -12,7 +12,6 @@ try {
 }
 
 $orcamentos = $pdo->query("SELECT * FROM orcamentos ORDER BY data_criacao DESC")->fetchAll();
-$stats = $pdo->query("SELECT status, COUNT(*) as total FROM orcamentos GROUP BY status")->fetchAll();
 
 foreach ($orcamentos as &$o) {
     $o['data_criacao'] = date('d/m/Y H:i', strtotime($o['data_criacao']));
@@ -20,8 +19,6 @@ foreach ($orcamentos as &$o) {
 }
 
 echo json_encode([
-    'total' => count($orcamentos),
-    'stats' => $stats,
     'orcamentos' => $orcamentos
 ]);
 ?>

@@ -126,35 +126,6 @@ thead.table-header {
   color: #fff;
 }
 
-/* Badges */
-.badge-lido { 
-  background-color: #28a745; 
-}
-
-.badge-nao-lido { 
-  background-color: #dc3545; 
-}
-
-.badge-pendente { 
-  background-color: #ffc107; 
-}
-
-.badge-em_analise { 
-  background-color: #17a2b8; 
-}
-
-.badge-enviado { 
-  background-color: #007bff; 
-}
-
-.badge-aprovado { 
-  background-color: #28a745; 
-}
-
-.badge-recusado { 
-  background-color: #dc3545; 
-}
-
 /* Utility Classes */
 .mensagem-completa {
   max-width: 400px;
